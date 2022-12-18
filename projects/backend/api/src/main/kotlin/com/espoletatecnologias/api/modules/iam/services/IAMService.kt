@@ -7,6 +7,6 @@ class IAMService {
     }
 
     fun logout(): String {
-        return "Goodbye cruel world"
+        return "Goodbye cruel world!"
     }
 }

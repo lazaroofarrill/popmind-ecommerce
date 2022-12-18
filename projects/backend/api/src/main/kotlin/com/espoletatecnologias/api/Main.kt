@@ -12,7 +12,8 @@ fun main() {
     embeddedServer(
         factory = io.ktor.server.netty.Netty,
         port = 8080,
-        module = Application::module
+        module = Application::module,
+        watchPaths = listOf("classes")
     ).start(wait = true)
 }
 
