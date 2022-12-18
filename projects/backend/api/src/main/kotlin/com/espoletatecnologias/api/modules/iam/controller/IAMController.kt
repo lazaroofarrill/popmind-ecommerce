@@ -41,26 +41,34 @@ class IAMController(private val iamService: IAMService) : Controller {
             call.respondHtml {
                 head {
                     title { +"IAM" }
+                    link { rel = "stylesheet"; href = "/styles.css" }
                 }
                 body {
-                    h1 { +"IAM" }
-                    p { +"This is the IAM module" }
+                    section(classes = "layout") {
+                        h1 { +"IAM" }
+                        p { +"This is the IAM module" }
 
-                    form(
-                        action = "/iam/login", method = FormMethod.post,
-                        encType = FormEncType.applicationXWwwFormUrlEncoded
-                    ) {
+                        form(
+                            action = "/iam/login", method = FormMethod.post,
+                            encType = FormEncType.applicationXWwwFormUrlEncoded,
+                            classes = "layout"
+                        ) {
 
-                        p {
-                            +"Username:"
-                            textInput { name = "username" }
-                        }
-                        p {
-                            +"Password:"
-                            passwordInput { name = "password" }
-                        }
-                        p {
+                            div() {
+                                label {
+                                    +"Username:"
+                                }
+                                textInput { name = "username" }
+                            }
+
+                            div {
+                                label {
+                                    +"Password:"
+                                }
+                                passwordInput { name = "password" }
+                            }
                             submitInput { value = "Login" }
+
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 package com.espoletatecnologias.api.framework.arch
 
-import io.ktor.server.routing.*
+import com.espoletatecnologias.api.framework.types.Router
 
 interface Controller {
-    val router: Route.() -> Unit
+    val router: Router
 }

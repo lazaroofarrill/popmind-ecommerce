@@ -26,6 +26,8 @@ dependencies {
     implementation("io.ktor:ktor-server-resources:$ktorVersion")
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
 
+    implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.459")
+
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // Koin Core features

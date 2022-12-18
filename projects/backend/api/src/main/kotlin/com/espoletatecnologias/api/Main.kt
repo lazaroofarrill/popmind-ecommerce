@@ -1,10 +1,9 @@
 package com.espoletatecnologias.api
 
-import com.espoletatecnologias.api.framework.arch.ApplicationModule
 import com.espoletatecnologias.api.framework.plugins.configureKoin
 import com.espoletatecnologias.api.framework.plugins.configureResources
 import com.espoletatecnologias.api.framework.plugins.configureRouting
-import com.espoletatecnologias.api.modules.iam.IAMModule
+import com.espoletatecnologias.api.modules.RootModule
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 
@@ -24,8 +23,3 @@ fun Application.module() {
     configureRouting(rootModule)
 }
 
-class RootModule : ApplicationModule() {
-    override val children: List<ApplicationModule> = listOf(
-        IAMModule()
-    )
-}
