@@ -9,6 +9,7 @@ pluginManagement {
         kotlin("jvm") version "1.7.22"
         kotlin("plugin.serialization") version "1.7.22"
         id("com.google.devtools.ksp") version "1.7.22-1.0.8"
+        id("io.ktor.plugin") version "2.2.1"
     }
 }
 
