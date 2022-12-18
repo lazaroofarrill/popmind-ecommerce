@@ -25,6 +25,10 @@ dependencies {
     implementation("io.ktor:ktor-server-default-headers-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-resources:$ktorVersion")
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
+    implementation("io.ktor:ktor-server-freemarker:$ktorVersion")
+
+    //openapi generator
+    implementation("dev.forst:ktor-openapi-generator:0.5.4")
 
     implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.459")
 
@@ -32,6 +36,7 @@ dependencies {
 
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.ktor:ktor-server-freemarker-jvm:2.2.1")
     testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
     implementation("io.insert-koin:koin-ktor:$koinVersion")

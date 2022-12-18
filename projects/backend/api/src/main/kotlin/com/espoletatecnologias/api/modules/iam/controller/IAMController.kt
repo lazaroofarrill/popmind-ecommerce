@@ -4,10 +4,10 @@ import com.espoletatecnologias.api.framework.arch.Controller
 import com.espoletatecnologias.api.modules.iam.services.IAMService
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.freemarker.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
-import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.*
@@ -16,16 +16,12 @@ import kotlinx.serialization.Serializable
 
 class IAMController(private val iamService: IAMService) : Controller {
     private fun Route.login() {
-        post<IAMRoutes.Login> {
-            val formParameters = call.receiveParameters()
-            val username: String = formParameters["username"].toString()
-            val password: String = formParameters["password"].toString()
-
-            call.respondText(
-                """
-                username: $username
-                password: $password
-            """.trimIndent()
+        get<IAMRoutes.Login> {
+            call.respond(
+                FreeMarkerContent(
+                    "login.ftl",
+                    mapOf("name" to "lore")
+                )
             )
         }
     }

@@ -15,8 +15,8 @@ fun Application.configureKoin(rootModule: ApplicationModule) {
 }
 
 fun KoinApplication.bootstrapModules(module: ApplicationModule) {
-    modules(module.module)
     module.children.forEach { child ->
         bootstrapModules(child)
     }
+    modules(module.module)
 }
