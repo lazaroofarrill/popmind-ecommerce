@@ -1,5 +1,7 @@
 services:
   api:
-    build: projects/backend/api
+    build:
+      context: ./
+      dockerfile: ./projects/backend/api/Dockerfile
     ports:
       - "8080:8080"
