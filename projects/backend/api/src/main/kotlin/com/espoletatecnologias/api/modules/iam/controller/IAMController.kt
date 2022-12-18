@@ -69,9 +69,9 @@ class IAMController(private val iamService: IAMService) : Controller {
     }
 
     override val router: Route.() -> Unit = {
+        landing()
         login()
         logout()
-        landing()
     }
 
     @Suppress("unused")
