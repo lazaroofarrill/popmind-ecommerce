@@ -1,19 +1,19 @@
-version: v0.4.6-alpha.1
+version: v0.11.0
 
 dsn: memory
 
 serve:
   public:
-    base_url: http://127.0.0.1:4433/
+    base_url: http://127.0.0.1:54433/
     cors:
       enabled: true
+    port: 54433
   admin:
-    base_url: http://kratos:4434/
+    base_url: http://kratos:54434/
+    port: 54434
 
 selfservice:
   default_browser_return_url: http://127.0.0.1:8080/
-  whitelisted_return_urls:
-    - http://127.0.0.1:8080
 
   methods:
     password:
@@ -56,13 +56,17 @@ secrets:
 hashers:
   argon2:
     parallelism: 1
-    memory: 131072
-    iterations: 2
+    memory: "16B"
     salt_length: 16
     key_length: 16
 
 identity:
-  default_schema_url: file:///etc/config/kratos/identity.schema.json
+  schemas:
+    - {
+      id: user,
+      url: file:///etc/config/kratos/user.schema.json
+    }
+
 
 courier:
   smtp:
