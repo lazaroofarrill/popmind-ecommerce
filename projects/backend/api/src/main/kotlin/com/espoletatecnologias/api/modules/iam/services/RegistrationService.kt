@@ -4,12 +4,12 @@ import io.ktor.server.freemarker.*
 
 class RegistrationService(private val kratosClient: KratosClient) {
     suspend fun registration(flowId: String): FreeMarkerContent {
-        val inputResponse = kratosClient.getKratosRegistration(flowId)
+        val inputResponse = kratosClient.getKratosRegistration()
 
         return FreeMarkerContent(
             "registration.ftl", mapOf(
                 "flow" to flowId,
-                "response" to inputResponse.toString()
+                "response" to inputResponse
             )
         )
     }

@@ -14,17 +14,14 @@ fun <T : ApplicationModule> Application.configureKoin(rootModuleCtr: KClass<T>):
         slf4jLogger()
         val rootModuleInstance = rootModuleCtr.createInstance()
         bootstrapDI(rootModuleInstance)
-
-
     }
     return usedModules.toList()
 }
 
+//all the modules used in this application are stored here
 private val usedModules = mutableListOf<ApplicationModule>()
 
-fun KoinApplication.bootstrapDI(
-    module: ApplicationModule,
-) {
+fun KoinApplication.bootstrapDI(module: ApplicationModule) {
     if (usedModules.map { it::class }.contains(module::class)) {
         return
     }

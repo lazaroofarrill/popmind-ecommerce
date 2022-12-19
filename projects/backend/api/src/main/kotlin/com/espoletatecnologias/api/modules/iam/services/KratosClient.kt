@@ -4,55 +4,87 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 class KratosClient(private val httpClient: HttpClient) {
-    private val kratosUrl = Url("http://127.0.0.1:4433")
+    private val kratosUrl = "http://127.0.0.1:4433"
 
-    suspend fun getKratosRegistration(flowId: String): KratosRegistrationResponse {
-        val registrationApiUrl = Url("${kratosUrl.fullPath}/registration/api")
+    suspend fun getKratosRegistration(): SelfServiceApiResponse {
+        val registrationApiUrl = Url("$kratosUrl/self-service/registration/api")
+        println(registrationApiUrl)
         val requestResult = httpClient.get {
             url(registrationApiUrl)
-            parameter("flow", flowId)
         }
 
         return requestResult.body()
     }
 
     @Serializable
-    data class KratosRegistrationResponse(
+    data class SelfServiceApiResponse(
         val id: String,
+
+        @SerialName("request_url")
+        val requestUrl: String,
+
+        val ui: UI,
+
+        @SerialName("oauth2_login_challenge")
+        val oauth2LoginChallenge: String?,
+
         val type: String,
-        val messages: List<KratosMessage>?,
-        val methods: Map<String, KratosMethod>
+
+        @SerialName("issued_at")
+        val issuedAt: String,
+
+        @SerialName("expires_at")
+        val expiresAt: String
     ) {
         @Serializable
-        data class KratosMethod(
-            val method: String,
-            val config: KratosMethodConfig
-        )
-
-        @Serializable
-        data class KratosMethodConfig(
+        data class UI(
             val action: String,
             val method: String,
-            val fields: List<KratosField>
-        )
+            val nodes: List<Node>
+        ) {
 
-        @Serializable
-        data class KratosField(
-            val name: String,
-            val type: String,
-            val required: Boolean = false,
-            val value: String?,
-            val messages: List<KratosMessage>?
-        )
+            @Serializable
+            data class Node(
+                val type: String,
+                val group: String,
+                val meta: Meta,
+                val attributes: Attributes,
+                val messages: List<Message>
+            ) {
+                @Serializable
+                data class Attributes(
+                    val autocomplete: String? = null,
+                    val disabled: Boolean,
+                    val name: String,
+                    @SerialName("node_type") val nodeType: String,
+                    val required: Boolean? = null,
+                    val type: String,
+                    val value: String = ""
+                )
 
-        @Serializable
-        data class KratosMessage(
-            val id: String,
-            val text: String,
-            val type: String
-        )
+                @Serializable
+                data class Message(val label: String)
+
+                @Serializable
+                data class Meta(
+                    val label: Label? = null
+                ) {
+                    @Serializable
+                    data class Label(
+                        val id: Int,
+                        val text: String,
+                        val type: String,
+                        val context: Context? = null
+                    )
+
+                    @Serializable
+                    data class Context(val label: String? = null)
+                }
+            }
+        }
     }
 }
