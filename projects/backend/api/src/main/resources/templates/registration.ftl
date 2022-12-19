@@ -4,8 +4,21 @@
 <@layout.header>
     <div>
         <h1>Registration page</h1>
-        <p>
-            ${response.id}
-        </p>
+        ${response.id}
+
+        <form action="${response.ui.action}" method="post">
+            <#list response.ui.nodes as inputs>
+                <div>
+
+                    <label for="${inputs.attributes.name}">
+                        <#if inputs.attributes.type != "hidden">
+                            ${inputs.attributes.name}
+                        </#if>
+                        <input name="${inputs.attributes.name}"
+                               type="${inputs.attributes.type}">
+                    </label>
+                </div>
+            </#list>
+        </form>
     </div>
 </@layout.header>
