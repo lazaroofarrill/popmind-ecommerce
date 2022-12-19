@@ -15,7 +15,7 @@
                             ${inputs.attributes.name}
                         </#if>
                         <input name="${inputs.attributes.name}"
-                               type="${inputs.attributes.type}">
+                               type="${inputs.attributes.type}"/>
                     </label>
                 </div>
             </#list>
