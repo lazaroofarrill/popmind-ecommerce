@@ -1,12 +1,16 @@
 package com.espoletatecnologias.api.modules.iam.services
 
 import io.ktor.server.freemarker.*
-import sh.ory.kratos.ApiClient
 
-class RegistrationService {
-    fun registration(flowId: String): FreeMarkerContent {
-        val client = ApiClient()
+class RegistrationService(private val kratosClient: KratosClient) {
+    suspend fun registration(flowId: String): FreeMarkerContent {
+        val inputResponse = kratosClient.getKratosRegistration(flowId)
 
-        return FreeMarkerContent("registration.ftl", mapOf("flow" to flowId))
+        return FreeMarkerContent(
+            "registration.ftl", mapOf(
+                "flow" to flowId,
+                "response" to inputResponse.toString()
+            )
+        )
     }
 }

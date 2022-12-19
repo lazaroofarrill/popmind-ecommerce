@@ -27,8 +27,10 @@ dependencies {
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
     implementation("io.ktor:ktor-server-freemarker:$ktorVersion")
 
-    //openapi generator
-    implementation("dev.forst:ktor-openapi-generator:0.5.4")
+    //ktor client
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+
 
     implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.459")
 
