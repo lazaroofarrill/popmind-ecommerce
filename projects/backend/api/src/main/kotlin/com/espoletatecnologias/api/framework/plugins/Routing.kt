@@ -8,11 +8,11 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting(rootModule: ApplicationModule) {
     install(Routing) {
-        get {
-            call.respondText("Hello World!")
+        get("/") {
+            call.respondRedirect("/iam")
         }
 
-        bootstrapModule(rootModule)
+        bootstrapRoutes(rootModule)
 
         static("/") {
             resources("public")
@@ -20,11 +20,11 @@ fun Application.configureRouting(rootModule: ApplicationModule) {
     }
 }
 
-fun Routing.bootstrapModule(module: ApplicationModule) {
+fun Routing.bootstrapRoutes(module: ApplicationModule) {
     module.controllers().forEach { controller ->
         controller.router(this)
     }
     module.children.forEach { child ->
-        bootstrapModule(child)
+        bootstrapRoutes(child)
     }
 }

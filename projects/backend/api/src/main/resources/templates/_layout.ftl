@@ -22,7 +22,7 @@
         <style type="text/tailwindcss">
             @layer components {
                 body {
-                    @apply bg-background text-white;
+                    /*@apply bg-background text-white;*/
                 }
 
                 .btn {
@@ -32,7 +32,13 @@
         </style>
     </head>
     <body>
-    <#nested>
+    <div class="flex flex-col items-center" style="padding-top: 64px">
+        <#nested>
+
+        <div style="border-top: solid 2px white; margin-top: 16px; padding-top: 16px">
+            <a href="/">Back home</a>
+        </div>
+    </div>
     </body>
     </html>
 </#macro>

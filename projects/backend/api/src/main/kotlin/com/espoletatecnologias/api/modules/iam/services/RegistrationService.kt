@@ -4,9 +4,9 @@ import io.ktor.server.freemarker.*
 import sh.ory.kratos.ApiClient
 
 class RegistrationService {
-    fun registration(flowId: String) {
+    fun registration(flowId: String): FreeMarkerContent {
         val client = ApiClient()
 
-        FreeMarkerContent("registration.ftl", mapOf("flow" to flowId))
+        return FreeMarkerContent("registration.ftl", mapOf("flow" to flowId))
     }
 }

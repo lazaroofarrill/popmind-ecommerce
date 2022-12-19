@@ -24,8 +24,8 @@ services:
       - kratos-migrate
     image: oryd/kratos:v0.11.0
     ports:
-      - "54433:54433" # public
-      - "54434:54434" # admin
+      - "4433:4433" # public
+      - "4434:4434" # admin
     restart: unless-stopped
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true

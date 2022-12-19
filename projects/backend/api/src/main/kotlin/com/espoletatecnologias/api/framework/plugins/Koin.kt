@@ -9,14 +9,15 @@ import org.koin.logger.slf4jLogger
 fun Application.configureKoin(rootModule: ApplicationModule) {
     install(Koin) {
         slf4jLogger()
-
-        bootstrapModules(rootModule)
+        bootstrapDI(rootModule)
     }
 }
 
-fun KoinApplication.bootstrapModules(module: ApplicationModule) {
+fun KoinApplication.bootstrapDI(
+    module: ApplicationModule,
+) {
     module.children.forEach { child ->
-        bootstrapModules(child)
+        bootstrapDI(child)
     }
     modules(module.module)
 }

@@ -1,6 +1,7 @@
 package com.espoletatecnologias.api.modules.iam.controller
 
 import com.espoletatecnologias.api.framework.arch.Controller
+import com.espoletatecnologias.api.framework.types.Router
 import com.espoletatecnologias.api.modules.iam.services.IAMService
 import com.espoletatecnologias.api.modules.iam.services.RegistrationService
 import io.ktor.resources.*
@@ -54,7 +55,7 @@ class AuthController(
         }
     }
 
-    override val router: Route.() -> Unit = {
+    override val router: Router = {
         index()
         login()
         logout()
