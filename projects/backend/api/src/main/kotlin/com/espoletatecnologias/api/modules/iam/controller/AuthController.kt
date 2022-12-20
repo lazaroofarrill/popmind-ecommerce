@@ -16,6 +16,7 @@ import kotlinx.html.*
 import kotlinx.serialization.Serializable
 
 
+
 class AuthController(
     private val iamService: IAMService,
     private val registrationService: RegistrationService
@@ -51,7 +52,16 @@ class AuthController(
 
     private fun Route.registration() {
         get<AuthRoutes.Registration> { registration ->
-            call.respond(registrationService.registration(registration.flow))
+            val csrfToken = call.request.cookies.rawCookies.toList().find {
+                it.first.contains("csrf_token")
+            } ?: throw Error("csrf token not present")
+
+            call.respond(
+                registrationService.registration(
+                    registration.flow,
+                    csrfToken
+                )
+            )
         }
     }
 

@@ -1,0 +1,11 @@
+### Get redirected to registration page
+GET 127.0.0.1:4433/self-service/registration/browser
+
+### get auth form
+GET http://127.0.0.1:8080/auth/registration?flow=636725da-5d29-4c6e-a657-b3edf1d92203
+
+###
+GET http://127.0.0.1:4433/self-service/registration/api?flow=ddd60e0d-28ca-4fa1-8c15-bc5f34ce86c8
+
+### get flow data
+GET http://127.0.0.1:4433/self-service/registration/flows?id=3554697c-65b1-4eae-b986-7ef857dbf52e

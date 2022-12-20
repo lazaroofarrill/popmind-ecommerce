@@ -26,14 +26,14 @@
             }
           }
         },
-        "name": {
+        "first_name": {
           "type": "string",
           "title": "Name"
         }
       },
       "required": [
         "email",
-        "name"
+        "first_name"
       ]
     }
   }
