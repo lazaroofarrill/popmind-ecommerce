@@ -1,5 +1,5 @@
 <#-- @ftlvariable name="flow" type="String" -->
-<#-- @ftlvariable name="response" type="com.espoletatecnologias.api.modules.iam.services.KratosClient.KratosRegistrationResponse.SelfServiceApiResponse" -->
+<#-- @ftlvariable name="response" type="com.espoletatecnologias.api.modules.iam.services.KratosClient.KratosResponse.SelfServiceApiResponse" -->
 <#import "_layout.ftl" as layout>
 <@layout.header>
     <div>
@@ -14,7 +14,6 @@
                     <#if node.attributes.name == "csrf_token">
                         <input type="hidden" name="${node.attributes.name}"
                                value="${node.attributes.value}">
-
                     <#else >
                         <label for="${node.meta.label.id}">${node.meta.label.text}</label>
                         <input id="${node.meta.label.id}"

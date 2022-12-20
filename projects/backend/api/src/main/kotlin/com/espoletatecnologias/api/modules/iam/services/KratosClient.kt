@@ -13,31 +13,45 @@ class KratosClient(private val httpClient: HttpClient) {
 
     suspend fun getKratosRegistration(
         flowId: String,
-        csrfToken: Pair<String, String>
-    ): KratosRegistrationResponse {
+        csrfToken: String
+    ): KratosResponse {
         val registrationApiUrl = "$kratosUrl/self-service/registration/flows"
+        return executeEndpoint(registrationApiUrl, flowId, csrfToken)
+    }
 
-        val requestResult = httpClient.get(registrationApiUrl) {
+    suspend fun getKratosLogin(
+        flowId: String,
+        csrfToken: String
+    ): KratosResponse {
+        val loginApiUrl = "$kratosUrl/self-service/login/flows"
+        return executeEndpoint(loginApiUrl, flowId, csrfToken)
+    }
+
+    private suspend fun executeEndpoint(
+        endpoint: String,
+        flowId: String,
+        csrfToken: String
+    ): KratosResponse {
+        val requestResult = httpClient.get(endpoint) {
             url {
                 parameters.append("id", flowId)
                 headers.append(
                     "Cookie",
-                    "${csrfToken.first}=${csrfToken.second}"
+                    csrfToken
                 )
             }
         }
 
 
         return if (requestResult.status == HttpStatusCode.OK) {
-            requestResult.body<KratosRegistrationResponse.SelfServiceApiResponse>()
+            requestResult.body<KratosResponse.SelfServiceApiResponse>()
         } else {
-            requestResult.body<KratosRegistrationResponse.KratosFlowErrorResponse>()
+            requestResult.body<KratosResponse.KratosFlowErrorResponse>()
             throw Error("Error getting identity schema")
         }
-
     }
 
-    sealed class KratosRegistrationResponse {
+    sealed class KratosResponse {
 
         @Serializable
         data class SelfServiceApiResponse(
@@ -56,15 +70,26 @@ class KratosClient(private val httpClient: HttpClient) {
             @SerialName("issued_at")
             val issuedAt: String,
 
+            @SerialName("created_at")
+            val createdAt: String? = null,
+
+            @SerialName("updated_at")
+            val updatedAt: String? = null,
+
+            val refresh: String? = null,
+
+            @SerialName("requested_aal")
+            val requestedAal: String? = null,
+
             @SerialName("expires_at")
             val expiresAt: String
-        ) : KratosRegistrationResponse() {
+        ) : KratosResponse() {
             @Serializable
             data class UI(
                 val action: String,
                 val method: String,
                 val nodes: List<Node>,
-                val messages: List<Node.Message> = emptyList()
+                val messages: List<Node.Message> = emptyList(),
             ) {
 
                 @Serializable
@@ -124,7 +149,7 @@ class KratosClient(private val httpClient: HttpClient) {
 
         @Serializable
         data class KratosFlowErrorResponse(val error: ErrorData) :
-            KratosRegistrationResponse() {
+            KratosResponse() {
 
             @Serializable
             data class ErrorData(
