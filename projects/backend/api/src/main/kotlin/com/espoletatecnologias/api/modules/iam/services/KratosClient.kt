@@ -5,56 +5,74 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.server.request.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 class KratosClient(private val httpClient: HttpClient) {
     private val kratosUrl = "http://127.0.0.1:4433"
+    private val selfServiceUrl: String
+        get() = "$kratosUrl/self-service"
 
     suspend fun getKratosRegistration(
         flowId: String,
-        csrfToken: String
+        cookies: List<String>
     ): KratosResponse {
-        val registrationApiUrl = "$kratosUrl/self-service/registration/flows"
-        return executeEndpoint(registrationApiUrl, flowId, csrfToken)
+        val registrationApiUrl = "$selfServiceUrl/registration/flows"
+        return executeEndpoint(registrationApiUrl, flowId, cookies)
     }
 
     suspend fun getKratosLogin(
         flowId: String,
-        csrfToken: String
+        cookies: List<String>
     ): KratosResponse {
-        val loginApiUrl = "$kratosUrl/self-service/login/flows"
-        return executeEndpoint(loginApiUrl, flowId, csrfToken)
+        val loginApiUrl = "$selfServiceUrl/login/flows"
+        return executeEndpoint(loginApiUrl, flowId, cookies)
+    }
+
+    suspend fun getKratosLogout(cookies: List<String>): KratosLogoutResponse {
+        val logoutEndpoint = "$selfServiceUrl/logout/browser"
+        val logoutRequestResult = httpClient.get(logoutEndpoint) {
+            url {
+                cookies.forEach { cookie ->
+                    headers.append("Cookie", cookie)
+                }
+            }
+        }
+        return logoutRequestResult.body()
     }
 
     private suspend fun executeEndpoint(
         endpoint: String,
         flowId: String,
-        csrfToken: String
+        cookies: List<String>
     ): KratosResponse {
         val requestResult = httpClient.get(endpoint) {
             url {
                 parameters.append("id", flowId)
-                headers.append(
-                    "Cookie",
-                    csrfToken
-                )
+                cookies.forEach { cookie ->
+                    headers.append(
+                        "Cookie",
+                        cookie
+                    )
+                }
             }
         }
 
 
         return if (requestResult.status == HttpStatusCode.OK) {
-            requestResult.body<KratosResponse.SelfServiceApiResponse>()
+            requestResult.body<KratosResponse.KratosSelfService>()
         } else {
-            requestResult.body<KratosResponse.KratosFlowErrorResponse>()
+            requestResult.body<KratosResponse.KratosFlowError>()
             throw Error("Error getting identity schema")
         }
     }
 
+
     sealed class KratosResponse {
 
         @Serializable
-        data class SelfServiceApiResponse(
+        data class KratosSelfService(
             val id: String,
 
             @SerialName("request_url")
@@ -148,7 +166,7 @@ class KratosClient(private val httpClient: HttpClient) {
         }
 
         @Serializable
-        data class KratosFlowErrorResponse(val error: ErrorData) :
+        data class KratosFlowError(val error: ErrorData) :
             KratosResponse() {
 
             @Serializable
@@ -179,4 +197,15 @@ class KratosClient(private val httpClient: HttpClient) {
             }
         }
     }
+
+    @Serializable
+    data class KratosLogoutResponse(
+        @SerialName("logout_url")
+        val logoutUrl: String,
+
+        @SerialName("logout_token")
+        val logoutToken: String,
+
+        val error: String? = null
+    )
 }

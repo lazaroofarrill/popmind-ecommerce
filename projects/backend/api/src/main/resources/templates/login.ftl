@@ -1,5 +1,5 @@
 <#-- @ftlvariable name="flow" type="String" -->
-<#-- @ftlvariable name="response" type="com.espoletatecnologias.api.modules.iam.services.KratosClient.KratosResponse.SelfServiceApiResponse" -->
+<#-- @ftlvariable name="response" type="com.espoletatecnologias.api.modules.iam.services.KratosClient.KratosResponse.KratosSelfService" -->
 <#import "_layout.ftl" as layout>
 <@layout.header>
     <div>

@@ -5,16 +5,16 @@ import io.ktor.server.freemarker.*
 class AuthService(private val kratosClient: KratosClient) {
     suspend fun registration(
         flowId: String,
-        csrfToken: String
+        cookies: List<String>
     ): FreeMarkerContent {
         val inputForm =
-            kratosClient.getKratosRegistration(flowId, csrfToken)
+            kratosClient.getKratosRegistration(flowId, cookies)
 
         return FreeMarkerContent(
             "registration.ftl", mapOf(
                 "flow" to flowId,
                 "response" to when (inputForm) {
-                    is KratosClient.KratosResponse.SelfServiceApiResponse -> {
+                    is KratosClient.KratosResponse.KratosSelfService -> {
                         inputForm
                     }
 
@@ -26,8 +26,11 @@ class AuthService(private val kratosClient: KratosClient) {
         )
     }
 
-    suspend fun login(flowId: String, csrfToken: String): FreeMarkerContent {
-        val inputForm = kratosClient.getKratosLogin(flowId, csrfToken)
+    suspend fun login(
+        flowId: String,
+        cookies: List<String>
+    ): FreeMarkerContent {
+        val inputForm = kratosClient.getKratosLogin(flowId, cookies)
 
         return FreeMarkerContent(
             "login.ftl",

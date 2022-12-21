@@ -3,6 +3,8 @@ package com.espoletatecnologias.api.modules.iam.controller
 import com.espoletatecnologias.api.framework.arch.Controller
 import com.espoletatecnologias.api.framework.types.Router
 import com.espoletatecnologias.api.modules.iam.services.AuthService
+import com.espoletatecnologias.api.modules.iam.services.KratosClient
+import io.ktor.client.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -17,7 +19,8 @@ import kotlinx.serialization.Serializable
 
 
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val kratosClient: KratosClient
 ) : Controller {
 
     private fun Route.index() {
@@ -33,58 +36,81 @@ class AuthController(
 
     private fun Route.login() {
         get<AuthRoutes.Login> { request ->
-            val csrfToken = extractCsrfCookie()
+            val csrfCookie = extractCsrfCookie()
 
             call.respond(
-                authService.login(request.flow, csrfToken)
+                authService.login(request.flow, listOf(csrfCookie))
             )
         }
     }
 
     private fun Route.registration() {
         get<AuthRoutes.Registration> { registration ->
-            val csrfToken = extractCsrfCookie()
+            val csrfCookie = extractCsrfCookie()
 
             call.respond(
                 authService.registration(
                     registration.flow,
-                    csrfToken
+                    listOf(csrfCookie)
                 )
             )
+        }
+    }
+
+    private fun Route.logout() {
+        get<AuthRoutes.Logout> {
+            val sessionCookie = extractSessionCookie()
+
+            val kratosLogoutResponse =
+                kratosClient.getKratosLogout(listOf(sessionCookie))
+
+            call.respondRedirect(kratosLogoutResponse.logoutUrl)
         }
     }
 
     override val router: Router = {
         index()
         login()
+        logout()
         registration()
     }
 
-    @Suppress("unused")
-    @Serializable
-    @Resource("/iam")
-    private class IAMRoutes
 
-    @Suppress("unused")
-    @Serializable
-    @Resource("/auth")
-    private class AuthRoutes {
-        @Serializable
-        @Resource("registration")
-        class Registration(
-            val parent: AuthRoutes = AuthRoutes(),
-            val flow: String
-        )
-
-        @Serializable
-        @Resource("login")
-        class Login(
-            val parent: AuthRoutes = AuthRoutes(),
-            val flow: String
-        )
-    }
 }
 
+
+//route definitions
+@Suppress("unused")
+@Serializable
+@Resource("/iam")
+private class IAMRoutes
+
+@Suppress("unused")
+@Serializable
+@Resource("/auth")
+private class AuthRoutes {
+    @Serializable
+    @Resource("registration")
+    class Registration(
+        val parent: AuthRoutes = AuthRoutes(),
+        val flow: String
+    )
+
+    @Serializable
+    @Resource("login")
+    class Login(
+        val parent: AuthRoutes = AuthRoutes(),
+        val flow: String
+    )
+
+    @Serializable
+    @Resource("logout")
+    class Logout(
+        val parent: AuthRoutes = AuthRoutes(),
+    )
+}
+
+//pipeline plugins
 private fun PipelineContext<Unit, ApplicationCall>.extractCsrfCookie(): String {
     val cookie = call.request.cookies.rawCookies.toList().find {
         it.first.contains("csrf_token")
@@ -92,3 +118,11 @@ private fun PipelineContext<Unit, ApplicationCall>.extractCsrfCookie(): String {
 
     return "${cookie.first}=${cookie.second}"
 }
+
+private fun PipelineContext<Unit, ApplicationCall>.extractSessionCookie(): String {
+    val cookie = call.request.cookies.rawCookies.toList().find {
+        it.first == "ory_kratos_session"
+    } ?: throw Error("Session Cookie not found")
+    return "${cookie.first}=${cookie.second}"
+}
+
