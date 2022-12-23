@@ -15,22 +15,22 @@ fun <T : ApplicationModule> Application.configureKoin(rootModuleCtr: KClass<T>):
         val rootModuleInstance = rootModuleCtr.createInstance()
         bootstrapDI(rootModuleInstance)
     }
-    return usedModules.toList()
+    return loadedModules.toList()
 }
 
 //all the modules used in this application are stored here
-private val usedModules = mutableListOf<ApplicationModule>()
+private val loadedModules = mutableListOf<ApplicationModule>()
 
-fun KoinApplication.bootstrapDI(module: ApplicationModule) {
-    if (usedModules.map { it::class }.contains(module::class)) {
+private fun KoinApplication.bootstrapDI(module: ApplicationModule) {
+    if (loadedModules.map { it::class }.contains(module::class)) {
         return
     }
-    usedModules.add(module)
+    loadedModules.add(module)
     module.imports().forEach { child ->
         if (!child.isSubclassOf(ApplicationModule::class)) {
             throw Error(
-                "${child.qualifiedName} is not a valid application module. " +
-                        "Application modules are subclasses of ${ApplicationModule::class.qualifiedName}"
+                """${child.qualifiedName} is not a valid application module. 
+                        Application modules are subclasses of ${ApplicationModule::class.qualifiedName}""".trimMargin()
             )
         }
         bootstrapDI(child.createInstance() as ApplicationModule)
