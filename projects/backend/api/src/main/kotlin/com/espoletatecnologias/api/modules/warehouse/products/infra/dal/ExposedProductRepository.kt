@@ -56,6 +56,7 @@ class ExposedProductRepository : ProductRepository {
     ): Query {
         where.forEach { filter ->
             if (filter.key is String) {
+
                 when (filter.key) {
                     Products::name.name -> {
                         query.andWhere {
@@ -73,6 +74,8 @@ class ExposedProductRepository : ProductRepository {
                         throw DalReadError("${filter.key} is not a property available for filtering")
                     }
                 }
+            } else {
+                throw Error("This repository only handles string keys")
             }
 
         }
@@ -133,7 +136,11 @@ class ExposedProductRepository : ProductRepository {
     }
 
     override suspend fun update(updatedProduct: Product): Product {
-        Products.update({ Products.id eq updatedProduct.id }) {
+        Products.update({
+            Products.id eq updatedProduct.id and (
+                    Products.productTypeDiscriminator eq
+                            ProductTypeDiscriminator.PRODUCT)
+        }) {
             it[name] = updatedProduct.name
             it[description] = updatedProduct.description
         }
