@@ -1,6 +1,5 @@
-package com.espoletatecnologias.api.modules.warehouse.models
+package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
-import kotlinx.css.Float
 import java.util.*
 
 

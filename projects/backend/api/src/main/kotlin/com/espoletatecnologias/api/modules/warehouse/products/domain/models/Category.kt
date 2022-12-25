@@ -1,4 +1,4 @@
-package com.espoletatecnologias.api.modules.warehouse.models
+package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
 import java.util.*
 

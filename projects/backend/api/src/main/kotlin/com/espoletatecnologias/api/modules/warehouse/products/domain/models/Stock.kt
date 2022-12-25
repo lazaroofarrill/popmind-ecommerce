@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.espoletatecnologias.api.modules.warehouse.models
+package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
 import java.time.ZonedDateTime
 import java.util.*
