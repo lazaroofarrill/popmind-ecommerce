@@ -1,13 +1,14 @@
 package com.espoletatecnologias.api.clean.crud
 
+import kotlinx.css.option
 import java.util.*
 
-abstract class CrudService<T : Any, TCreateDto : Dto<T>,
-        TUpdateDto : Dto<T>>(private val repo: CrudRepository<T>) {
+abstract class CrudService<T : Any, TCreateDto : InputDto<T>,
+        TUpdateDto : InputDto<T>>(private val repo: CrudRepository<T>) {
 
 
-    suspend fun find(): List<T> {
-        return repo.find()
+    suspend fun find(options: FindManyOptions): FindManyResponse<T> {
+        return repo.find(options)
     }
 
     suspend fun findOne(id: UUID): T? = repo.findOne(id)

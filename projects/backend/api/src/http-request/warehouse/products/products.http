@@ -3,10 +3,10 @@ POST {{host}}/warehouse/products
 Content-Type: application/json
 
 {
-  "name": "Muffin",
+  "name": "Other name",
   "description": "sexy muffin"
 }
 
 
 ### List Products
-GET {{host}}/warehouse/products
+GET {{host}}/warehouse/products?limit=5&offset=0&w_name=Other name

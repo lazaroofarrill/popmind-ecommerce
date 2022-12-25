@@ -1,5 +1,8 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal
 
+import com.espoletatecnologias.api.clean.crud.FindManyOptions
+import com.espoletatecnologias.api.clean.crud.FindManyResponse
+import com.espoletatecnologias.api.clean.crud.FindOptions
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
@@ -9,12 +12,24 @@ import java.util.*
 private val products: MutableList<Product> = mutableListOf()
 
 class InMemoryProductRepository : ProductRepository {
-    override suspend fun find(): List<Product> {
-        return products.toList()
+    override suspend fun find(options: FindManyOptions): FindManyResponse<Product> {
+        val items = products.toList()
+
+        return FindManyResponse(
+            items = items,
+            limit = options.limit,
+            offset = options.offset,
+            count = items.size.toLong(),
+            total = products.size.toLong()
+        )
     }
 
     override suspend fun findOne(id: UUID): Product? {
         return products.find { it.id == id }
+    }
+
+    override suspend fun findOne(options: FindOptions): Product? {
+        TODO("Not yet implemented")
     }
 
     override suspend fun create(newProduct: Product): Product {

@@ -1,10 +1,14 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.controllers
 
+import com.espoletatecnologias.api.clean.crud.FindManyResponse
 import com.espoletatecnologias.api.clean.crud.UnitOfWork
 import com.espoletatecnologias.api.framework.arch.Controller
-import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
+import com.espoletatecnologias.api.framework.common.utils.extractFindOptions
+import com.espoletatecnologias.api.framework.common.utils.setFindMeta
 import com.espoletatecnologias.api.framework.types.Router
-import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.ProductDto
+import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.CreateProductDto
+import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.ReadProductDto
+import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -21,24 +25,23 @@ class ProductController(
         route("warehouse/products") {
             get {
                 unitOfWork {
+                    val products: FindManyResponse<Product> =
+                        productService.find(extractFindOptions())
 
-                    call.respond(productService.find().map {
-                        ProductDto.fromEntity(it)
+                    setFindMeta(products)
+
+                    call.respond(products.items.map {
+                        ReadProductDto.fromEntity(it)
                     })
                 }
             }
 
             post {
                 unitOfWork {
-                    val createProductDto = call.receive<ProductDto>()
-
-                    for (i in 1..10000) {
-                        productService.create(createProductDto.copy(description = createProductDto.description + "lol"))
-                    }
+                    val createProductDto = call.receive<CreateProductDto>()
                     val createdProduct = productService.create(createProductDto)
 
-                    throw DalInsertError()
-                    call.respond(ProductDto.fromEntity(createdProduct))
+                    call.respond(ReadProductDto.fromEntity(createdProduct))
                 }
             }
         }

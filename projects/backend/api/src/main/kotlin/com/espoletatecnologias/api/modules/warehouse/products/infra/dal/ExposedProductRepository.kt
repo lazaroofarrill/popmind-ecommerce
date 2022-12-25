@@ -1,6 +1,10 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal
 
+import com.espoletatecnologias.api.clean.crud.FindManyOptions
+import com.espoletatecnologias.api.clean.crud.FindManyResponse
+import com.espoletatecnologias.api.clean.crud.FindOptions
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
+import com.espoletatecnologias.api.framework.common.exceptions.DalReadError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
@@ -40,18 +44,78 @@ fun ResultRow.toProduct(): Product {
 }
 
 class ExposedProductRepository : ProductRepository {
-    override suspend fun find(): List<Product> {
+    private fun commonSelectQuery(): Query {
         return Products.select {
             Products.productTypeDiscriminator eq ProductTypeDiscriminator.PRODUCT
-        }.map(ResultRow::toProduct)
+        }
+    }
+
+    private fun applyFiltersToQuery(
+        query: Query,
+        where: Map<Any, Any>
+    ): Query {
+        where.forEach { filter ->
+            if (filter.key is String) {
+                when (filter.key) {
+                    Products::name.name -> {
+                        query.andWhere {
+                            Products.name eq filter.value as String
+                        }
+                    }
+
+                    Products::description.name -> {
+                        query.andWhere {
+                            Products.description eq filter.value as String
+                        }
+                    }
+
+                    else -> {
+                        throw DalReadError("${filter.key} is not a property available for filtering")
+                    }
+                }
+            }
+
+        }
+
+        return query
+    }
+
+    override suspend fun find(options: FindManyOptions): FindManyResponse<Product> {
+        val query = commonSelectQuery()
+
+        applyFiltersToQuery(query, options.where)
+
+        val totalCount = query.count()
+
+        query.limit(options.limit, options.offset)
+
+        val queryCount = query.count()
+
+        val items = query.map(ResultRow::toProduct)
+
+        return FindManyResponse(
+            items = items,
+            limit = options.limit,
+            count = queryCount,
+            offset = options.offset,
+            total = totalCount
+        )
     }
 
     override suspend fun findOne(id: UUID): Product? {
         val query =
-            Products.select { Products.productTypeDiscriminator eq ProductTypeDiscriminator.PRODUCT }
+            commonSelectQuery()
                 .andWhere {
                     Products.id eq id
                 }
+
+        return query.singleOrNull()?.let(ResultRow::toProduct)
+    }
+
+    override suspend fun findOne(options: FindOptions): Product? {
+        val query = commonSelectQuery()
+
+        applyFiltersToQuery(query, options.where)
 
         return query.singleOrNull()?.let(ResultRow::toProduct)
     }

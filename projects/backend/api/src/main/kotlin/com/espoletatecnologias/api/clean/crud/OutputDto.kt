@@ -1,5 +1,5 @@
 package com.espoletatecnologias.api.clean.crud
 
-interface SerializerCompanionObject<TDto, TEntity> {
+interface OutputDto<TDto, TEntity> {
     fun fromEntity(entity: TEntity): TDto
 }
