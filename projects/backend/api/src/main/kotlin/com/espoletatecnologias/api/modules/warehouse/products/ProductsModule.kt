@@ -15,10 +15,9 @@ class ProductsModule : ApplicationModule() {
     override val module: Module = module {
         single { ProductService(productRepo = get()) }
         single { ExposedProductRepository() as ProductRepository }
-
     }
 
     override fun controllers(): List<Controller> = listOf(
-        ProductController(productService = get())
+        ProductController(productService = get(), unitOfWork = get())
     )
 }
