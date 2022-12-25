@@ -1,9 +1,6 @@
 package com.espoletatecnologias.api
 
-import com.espoletatecnologias.api.framework.plugins.configureFreeMarker
-import com.espoletatecnologias.api.framework.plugins.configureKoin
-import com.espoletatecnologias.api.framework.plugins.configureResources
-import com.espoletatecnologias.api.framework.plugins.configureRouting
+import com.espoletatecnologias.api.framework.plugins.*
 import com.espoletatecnologias.api.modules.RootModule
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -19,6 +16,7 @@ fun main() {
 
 fun Application.module() {
     val applicationModules = configureKoin(RootModule::class)
+    configureContentNegotiation()
     configureFreeMarker()
     configureResources()
     configureRouting(applicationModules)

@@ -13,5 +13,5 @@ interface CrudRepository<T : Any> {
 
     suspend fun delete(id: UUID): Boolean
 
-    suspend fun delete(ids: List<UUID>): Int
+    suspend fun delete(ids: List<UUID>): Boolean
 }

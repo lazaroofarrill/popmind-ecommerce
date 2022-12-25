@@ -1,13 +1,14 @@
 package com.espoletatecnologias.api.modules.warehouse.products.domain.dtos
 
-import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.framework.clean.crud.Dto
+import com.espoletatecnologias.api.framework.clean.crud.SerializerCompanionObject
+import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import kotlinx.serialization.Serializable
 import java.util.*
 
 
 @Serializable()
-data class CreateProductDto(
+data class ProductDto(
     val name: String,
     val description: String
 ) : Dto<Product> {
@@ -21,5 +22,13 @@ data class CreateProductDto(
             categories = emptyList()
         )
     }
-}
 
+    companion object : SerializerCompanionObject<ProductDto, Product> {
+        override fun fromEntity(entity: Product): ProductDto {
+            return ProductDto(
+                entity.name,
+                entity.description
+            )
+        }
+    }
+}

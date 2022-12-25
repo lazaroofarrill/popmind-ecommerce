@@ -1,13 +1,14 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal
 
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
+import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import java.util.*
 
 private val products: MutableList<Product> = mutableListOf()
 
-class ExposedProductRepository : ProductRepository {
+class InMemoryProductRepository : ProductRepository {
     override suspend fun find(): List<Product> {
         return products.toList()
     }
@@ -23,14 +24,23 @@ class ExposedProductRepository : ProductRepository {
     }
 
     override suspend fun update(updatedProduct: Product): Product {
-        TODO("Not yet implemented")
+        val toUpdateIndex = products.indexOfFirst {
+            it.id == updatedProduct.id
+        }
+        if (toUpdateIndex == -1) {
+            throw DalUpdateError()
+        }
+        products[toUpdateIndex] = updatedProduct
+        return updatedProduct
     }
 
     override suspend fun delete(id: UUID): Boolean {
-        TODO("Not yet implemented")
+        return products.removeIf { it.id == id }
     }
 
-    override suspend fun delete(ids: List<UUID>): Int {
-        TODO("Not yet implemented")
+    override suspend fun delete(ids: List<UUID>): Boolean {
+        return ids.map { id2Delete ->
+            products.removeIf { it.id == id2Delete }
+        }.contains(false).not()
     }
 }

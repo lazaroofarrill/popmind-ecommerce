@@ -2,7 +2,7 @@ package com.espoletatecnologias.api.modules.warehouse.products.infra.controllers
 
 import com.espoletatecnologias.api.framework.arch.Controller
 import com.espoletatecnologias.api.framework.types.Router
-import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.CreateProductDto
+import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.ProductDto
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -14,18 +14,16 @@ class ProductController(private val productService: ProductService) :
     override val router: Router = {
         route("warehouse/products") {
             get {
-                call.respondText {
-                    productService.find().toString()
-                }
+                call.respond(productService.find().map {
+                    ProductDto.fromEntity(it)
+                })
             }
 
             post {
-                val createProductDto = call.receive<CreateProductDto>()
+                val createProductDto = call.receive<ProductDto>()
 
                 val createdProduct = productService.create(createProductDto)
-                call.respondText {
-                    createdProduct.toString()
-                }
+                call.respond(ProductDto.fromEntity(createdProduct))
             }
         }
 

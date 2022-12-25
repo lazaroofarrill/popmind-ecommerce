@@ -1,0 +1,12 @@
+### Create Products
+POST {{host}}/warehouse/products
+Content-Type: application/json
+
+{
+  "name": "Muffin",
+  "description": "sexy muffin"
+}
+
+
+### List Products
+GET {{host}}/warehouse/products
