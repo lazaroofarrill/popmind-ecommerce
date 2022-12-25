@@ -6,6 +6,10 @@ import org.koin.dsl.module
 import kotlin.reflect.KClass
 
 abstract class ApplicationModule : KoinComponent {
+    init {
+        println("${this::class.simpleName} module loaded")
+    }
+
     /**
      * Factory function for all instances of the module
      */

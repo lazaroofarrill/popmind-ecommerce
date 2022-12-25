@@ -6,6 +6,7 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import org.koin.core.module.Module
 
+
 fun Module.provideHttpClient() = single {
     HttpClient() {
         install(ContentNegotiation) {

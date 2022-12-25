@@ -1,7 +1,7 @@
 package com.espoletatecnologias.api.modules.warehouse.products.domain.dtos
 
-import com.espoletatecnologias.api.framework.clean.crud.Dto
-import com.espoletatecnologias.api.framework.clean.crud.SerializerCompanionObject
+import com.espoletatecnologias.api.clean.crud.Dto
+import com.espoletatecnologias.api.clean.crud.SerializerCompanionObject
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -18,7 +18,6 @@ data class ProductDto(
             name = name,
             description = description,
             pictures = emptyList(),
-            rating = 1.0f,
             categories = emptyList()
         )
     }

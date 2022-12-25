@@ -1,4 +1,4 @@
-package com.espoletatecnologias.api.framework.clean.crud
+package com.espoletatecnologias.api.clean.crud
 
 import java.util.*
 

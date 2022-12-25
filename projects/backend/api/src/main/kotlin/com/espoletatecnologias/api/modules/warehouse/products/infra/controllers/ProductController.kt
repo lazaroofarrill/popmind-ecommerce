@@ -1,7 +1,9 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.controllers
 
 import com.espoletatecnologias.api.framework.arch.Controller
+import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
 import com.espoletatecnologias.api.framework.types.Router
+import com.espoletatecnologias.api.modules.details.database.dbQuery
 import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.ProductDto
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import io.ktor.server.application.*
@@ -14,16 +16,26 @@ class ProductController(private val productService: ProductService) :
     override val router: Router = {
         route("warehouse/products") {
             get {
-                call.respond(productService.find().map {
-                    ProductDto.fromEntity(it)
-                })
+                dbQuery {
+
+                    call.respond(productService.find().map {
+                        ProductDto.fromEntity(it)
+                    })
+                }
             }
 
             post {
-                val createProductDto = call.receive<ProductDto>()
+                dbQuery {
+                    val createProductDto = call.receive<ProductDto>()
 
-                val createdProduct = productService.create(createProductDto)
-                call.respond(ProductDto.fromEntity(createdProduct))
+                    for (i in 1..10000) {
+                        productService.create(createProductDto.copy(description = createProductDto.description + "lol"))
+                    }
+                    val createdProduct = productService.create(createProductDto)
+
+                    throw DalInsertError()
+                    call.respond(ProductDto.fromEntity(createdProduct))
+                }
             }
         }
 

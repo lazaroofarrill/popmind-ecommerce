@@ -3,6 +3,9 @@ val koinVersion by properties
 val logbackVersion by properties
 val oryKratosVersion by properties
 
+val exposed_version: String by project
+val h2_version: String by project
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -56,6 +59,13 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+
+    //exposed
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+    implementation("com.h2database:h2:$h2_version")
+
 }
 
 tasks.getByName<Test>("test") {
