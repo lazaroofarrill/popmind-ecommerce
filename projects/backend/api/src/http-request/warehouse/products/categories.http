@@ -1,0 +1,8 @@
+### Create categories
+POST {{host}}/warehouse/categories
+Content-Type: application/json
+
+{
+  "name": "Shoe",
+  "description": "Shoes have a description"
+}
