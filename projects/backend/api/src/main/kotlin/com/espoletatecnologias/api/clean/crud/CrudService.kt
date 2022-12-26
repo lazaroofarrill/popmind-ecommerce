@@ -12,16 +12,16 @@ abstract class CrudService<
     private val uwo: UnitOfWorkService
 ) {
 
-    suspend fun find(options: FindManyOptions): FindManyResponse<T> {
+    open suspend fun find(options: FindManyOptions): FindManyResponse<T> {
         return uwo.exec { repo.find(options) }
     }
 
 
-    suspend fun findOne(id: UUID): T? {
+    open suspend fun findOne(id: UUID): T? {
         return uwo.exec { repo.findOne(id) }
     }
 
-    suspend fun create(createDto: TCreateDto): T {
+    open suspend fun create(createDto: TCreateDto): T {
         return uwo.exec {
             createDto.validate()
             val newProduct = createDto.toEntity()
@@ -30,7 +30,7 @@ abstract class CrudService<
     }
 
 
-    suspend fun update(updateDto: TUpdateDto): T {
+    open suspend fun update(updateDto: TUpdateDto): T {
         return uwo.exec {
             updateDto.validate()
             val toUpdate = findOne(updateDto.id)
@@ -39,7 +39,7 @@ abstract class CrudService<
         }
     }
 
-    suspend fun delete(id: UUID): Boolean {
+    open suspend fun delete(id: UUID): Boolean {
         return uwo.exec {
             repo.delete(id)
         }

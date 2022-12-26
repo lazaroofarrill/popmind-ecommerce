@@ -5,10 +5,7 @@ import com.espoletatecnologias.api.modules.details.database.ExposedDatabaseModul
 import com.espoletatecnologias.api.modules.i18n.infra.schemas.Languages
 import com.espoletatecnologias.api.modules.iam.IAMModule
 import com.espoletatecnologias.api.modules.warehouse.WarehouseModule
-import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Categories
-import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.CategoriesTranslations
-import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Products
-import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.ProductsTranslations
+import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.*
 
 class RootModule : ApplicationModule() {
     override fun imports() = listOf(
@@ -20,7 +17,8 @@ class RootModule : ApplicationModule() {
                 Products,
                 ProductsTranslations,
                 Categories,
-                CategoriesTranslations
+                CategoriesTranslations,
+                CategoriesProductsJoint
             )
         )
     )

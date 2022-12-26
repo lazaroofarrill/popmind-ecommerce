@@ -9,14 +9,15 @@ data class Product(
     val name: String,
     val description: String,
     val pictures: List<String>,
-    val categories: List<Category>
+    val categories: List<Category>? = null
 ) : BaseEntity
 
 data class ProductVariant(
     override val id: UUID,
     val parentId: UUID,
     val properties: Map<VariantProperty, String>,
-    val pictures: List<String>
+    val pictures: List<String>,
+    val parent: Product? = null
 ) : BaseEntity
 
 data class VariantProperty(

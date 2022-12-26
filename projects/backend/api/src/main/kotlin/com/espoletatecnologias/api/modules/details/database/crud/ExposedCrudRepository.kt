@@ -25,8 +25,8 @@ open class CommonTable(name: String = "") : Table(name) {
 open class ExposedCrudRepository<T : BaseEntity>(
     private val table: CommonTable,
     private val resultRowToEntity: ResultRow.() -> T
-) :
-    CrudRepository<T> {
+) : CrudRepository<T> {
+
     override suspend fun find(options: FindManyOptions): FindManyResponse<T> {
         val query = commonSelectQuery()
 
@@ -50,13 +50,7 @@ open class ExposedCrudRepository<T : BaseEntity>(
     }
 
     override suspend fun findOne(id: UUID): T? {
-        val query =
-            commonSelectQuery()
-                .andWhere {
-                    table.id eq id
-                }
-
-        return query.singleOrNull()?.let(resultRowToEntity)
+        return findOne(FindOptions(where = mapOf("id" to id)))
     }
 
     override suspend fun findOne(options: FindOptions): T? {
@@ -159,7 +153,11 @@ open class ExposedCrudRepository<T : BaseEntity>(
         return table.selectAll()
     }
 
-    private fun applyFiltersToQuery(
+    protected open fun commonSelectQuery(query: Query): Query {
+        return query
+    }
+
+    protected fun applyFiltersToQuery(
         query: Query,
         where: Map<Any, Any>
     ): Query {
@@ -179,9 +177,24 @@ open class ExposedCrudRepository<T : BaseEntity>(
                     }
                         ?: throw Error("Column for filtering ${filter.key} not found")
 
-                query.andWhere {
-                    column as Column<String> eq filter.value as String
+                when (filter.value) {
+                    is UUID -> query.andWhere {
+                        column as Column<UUID> eq filter.value as UUID
+                    }
+
+                    is String -> query.andWhere {
+                        column as Column<String> eq filter.value as String
+                    }
+
+                    is Int -> query.andWhere {
+                        column as Column<Int> eq filter.value as Int
+                    }
+
+                    is Long -> query.andWhere {
+                        column as Column<Long> eq filter.value as Long
+                    }
                 }
+                
             } else {
                 throw Error("This repository only handles string keys")
             }

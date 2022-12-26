@@ -3,8 +3,8 @@ POST {{host}}/warehouse/categories
 Content-Type: application/json
 
 {
-  "name": "Shoe",
-  "description": "Shoes have a description"
+  "name": "Key",
+  "description": "My keys are good"
 }
 
 ### List categories

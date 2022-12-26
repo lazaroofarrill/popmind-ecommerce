@@ -25,9 +25,11 @@ data class CreateProductDto(
             name = name,
             description = description,
             pictures = pictures,
-            categories = emptyList()
         )
     }
+
+    val categoryIds:
+            List<@Serializable(with = UUIDSerializer::class) UUID>? = null
 }
 
 @Serializable
@@ -40,9 +42,8 @@ data class ReadProductDto(
 
     val pictures: List<String>,
 
-    val categories: List<ReadCategoryDto> = emptyList()
+    val categories: List<ReadCategoryDto>
 ) {
-
     companion object : OutputDto<ReadProductDto, Product> {
         override fun fromEntity(entity: Product): ReadProductDto {
             return ReadProductDto(
@@ -50,11 +51,11 @@ data class ReadProductDto(
                 name = entity.name,
                 description = entity.description,
                 pictures = entity.pictures,
-                categories = entity.categories.map {
+                categories = entity.categories?.map {
                     ReadCategoryDto.fromEntity(
                         it
                     )
-                }
+                } ?: emptyList()
             )
         }
     }
@@ -69,7 +70,9 @@ data class UpdateProductDto(
 
     val description: String? = null,
 
-    val pictures: List<String>? = null
+    val pictures: List<String>? = null,
+
+    val categoryIds: List<@Serializable(with = UUIDSerializer::class) UUID>? = null
 ) : UpdateDto<Product> {
     override fun toEntity(toUpdate: Product): Product {
         return toUpdate.copy(

@@ -1,3 +1,5 @@
+## Pet project for testing software development principles
+
 ### Framework development guidelines
 
 - All modules configurations should be set in root module
@@ -20,3 +22,8 @@
 - Don't use null asserts(!!).
   You either throw or fallback,
   don't assume a value is not null.
+
+### Clean architecture facts
+
+- The domain folder should compile even if you delete
+  the infra folder

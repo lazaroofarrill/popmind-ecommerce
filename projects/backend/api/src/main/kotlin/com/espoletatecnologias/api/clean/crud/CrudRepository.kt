@@ -23,15 +23,24 @@ interface CrudRepository<T : Any> {
     suspend fun delete(ids: List<UUID>): Boolean
 }
 
+
+interface IFindOptions {
+    val select: Map<Any, Any>
+    val where: Map<Any, Any>
+    val relations: Map<Any, Any>
+}
+
 data class FindOptions(
-    val select: Map<Any, Any> = mapOf(),
-    val where: Map<Any, Any> = mapOf()
-)
+    override val select: Map<Any, Any> = mapOf(),
+    override val where: Map<Any, Any> = mapOf(),
+    override val relations: Map<Any, Any> = mapOf()
+) : IFindOptions
 
 data class FindManyOptions(
     val limit: Int = 100,
     val offset: Long = 0,
-    val select: Map<Any, Any> = mapOf(),
-    val where: Map<Any, Any> = mapOf(),
-    val order: Map<Any, FilteringOrder> = mapOf()
-)
+    override val select: Map<Any, Any> = mapOf(),
+    override val where: Map<Any, Any> = mapOf(),
+    val order: Map<Any, FilteringOrder> = mapOf(),
+    override val relations: Map<Any, Any> = mapOf()
+) : IFindOptions

@@ -3,9 +3,12 @@ POST {{host}}/warehouse/products
 Content-Type: application/json
 
 {
-  "name": "Other name",
-  "description": "sexy muffin",
-  "pictures": ["lol@lol.com"]
+  "name": "Adidas v2",
+  "description": "belongs to category shoes",
+  "pictures": [],
+  "categoryIds": [
+    "7577bbe9-6ea7-4b3f-be73-51dc959449d7"
+  ]
 }
 
 
@@ -24,7 +27,9 @@ PATCH {{host}}/warehouse/products
 Content-Type: application/json
 
 {
-  "id": "43fcb025-b850-4690-8412-977c88a6e5cd",
-  "pictures": ["some@image.com"],
-  "name": "Give me a new name"
+  "id": "e0c06c01-90df-4e9a-b388-bbe1f71429b0",
+  "categoryIds": [
+    "7aea5142-e77c-4b54-a3dd-2788bbdf024e",
+    "c99a5b07-098d-4042-bda9-4d80ac63df4a"
+  ]
 }
