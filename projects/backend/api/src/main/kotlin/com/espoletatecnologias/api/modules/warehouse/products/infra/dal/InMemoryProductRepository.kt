@@ -32,21 +32,21 @@ class InMemoryProductRepository : ProductRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun create(newProduct: Product): Product {
-        return if (products.add(newProduct)) {
-            newProduct
+    override suspend fun create(newRecord: Product): Product {
+        return if (products.add(newRecord)) {
+            newRecord
         } else throw DalInsertError()
     }
 
-    override suspend fun update(updatedProduct: Product): Product {
+    override suspend fun update(updatedRecord: Product): Product {
         val toUpdateIndex = products.indexOfFirst {
-            it.id == updatedProduct.id
+            it.id == updatedRecord.id
         }
         if (toUpdateIndex == -1) {
             throw DalUpdateError()
         }
-        products[toUpdateIndex] = updatedProduct
-        return updatedProduct
+        products[toUpdateIndex] = updatedRecord
+        return updatedRecord
     }
 
     override suspend fun delete(id: UUID): Boolean {

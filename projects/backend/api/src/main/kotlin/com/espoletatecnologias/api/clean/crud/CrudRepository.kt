@@ -14,9 +14,9 @@ interface CrudRepository<T : Any> {
 
     suspend fun findOne(options: FindOptions = FindOptions()): T?
 
-    suspend fun create(newProduct: T): T
+    suspend fun create(newRecord: T): T
 
-    suspend fun update(updatedProduct: T): T
+    suspend fun update(updatedRecord: T): T
 
     suspend fun delete(id: UUID): Boolean
 

@@ -2,8 +2,11 @@ package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
 import java.util.*
 
-interface IProduct {
+interface BaseEntity {
     val id: UUID
+}
+
+interface IProduct: BaseEntity {
     val name: String
     val description: String
     val pictures: List<String>
