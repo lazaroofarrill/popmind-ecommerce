@@ -5,3 +5,9 @@ interface InputDto<TEntity> {
 
     fun toEntity(): TEntity
 }
+
+interface UpdateDto<TEntity>: BaseEntity {
+    fun validate(): Boolean = true
+
+    fun toEntity(toUpdate: TEntity): TEntity
+}

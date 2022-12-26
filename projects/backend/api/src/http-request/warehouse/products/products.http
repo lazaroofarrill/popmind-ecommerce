@@ -14,3 +14,17 @@ GET {{host}}/warehouse/products?w_id=c5c7dea9-9c9b-4c7e-99a4-a2f65210e293
 
 ### List Products
 GET {{host}}/warehouse/products?limit=5&offset=0&w_name=Other name
+
+### List Products
+GET {{host}}/warehouse/products
+
+
+### Update Product
+PATCH {{host}}/warehouse/products
+Content-Type: application/json
+
+{
+  "id": "43fcb025-b850-4690-8412-977c88a6e5cd",
+  "pictures": ["some@image.com"],
+  "name": "Give me a new name"
+}

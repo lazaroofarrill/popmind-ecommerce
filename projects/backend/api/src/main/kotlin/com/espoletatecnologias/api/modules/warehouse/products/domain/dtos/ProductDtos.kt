@@ -2,11 +2,10 @@ package com.espoletatecnologias.api.modules.warehouse.products.domain.dtos
 
 import com.espoletatecnologias.api.clean.crud.InputDto
 import com.espoletatecnologias.api.clean.crud.OutputDto
+import com.espoletatecnologias.api.clean.crud.UpdateDto
 import com.espoletatecnologias.api.framework.serializers.UUIDSerializer
-import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Category
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import java.util.*
 
 
@@ -16,12 +15,10 @@ data class CreateProductDto(
 
     val description: String,
 
-    @Transient val id: UUID = UUID.randomUUID(),
 
     val pictures: List<String>,
 
-    @Transient val categories: List<Category> = emptyList()
-) : InputDto<Product> {
+    ) : InputDto<Product> {
     override fun toEntity(): Product {
         return Product(
             id = UUID.randomUUID(),
@@ -60,5 +57,25 @@ data class ReadProductDto(
                 }
             )
         }
+    }
+}
+
+@Serializable
+data class UpdateProductDto(
+    @Serializable(with = UUIDSerializer::class)
+    override val id: UUID,
+
+    val name: String? = null,
+
+    val description: String? = null,
+
+    val pictures: List<String>? = null
+) : UpdateDto<Product> {
+    override fun toEntity(toUpdate: Product): Product {
+        return toUpdate.copy(
+            name = name ?: toUpdate.name,
+            description = description ?: toUpdate.description,
+            pictures = pictures ?: toUpdate.pictures
+        )
     }
 }

@@ -1,11 +1,13 @@
 package com.espoletatecnologias.api.clean.crud
 
+import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import java.util.*
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class CrudService<
         T : Any,
         TCreateDto : InputDto<T>,
-        TUpdateDto : InputDto<T>>(
+        TUpdateDto : UpdateDto<T>>(
     private val repo: CrudRepository<T>,
     private val uwo: UnitOfWorkService
 ) {
@@ -31,7 +33,9 @@ abstract class CrudService<
     suspend fun update(updateDto: TUpdateDto): T {
         return uwo.exec {
             updateDto.validate()
-            repo.update(updateDto.toEntity())
+            val toUpdate = findOne(updateDto.id)
+                ?: throw DalUpdateError("RecordShouldExist")
+            repo.update(updateDto.toEntity(toUpdate))
         }
     }
 
