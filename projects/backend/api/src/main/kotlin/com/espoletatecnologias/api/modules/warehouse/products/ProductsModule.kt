@@ -5,7 +5,7 @@ import com.espoletatecnologias.api.framework.arch.Controller
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import com.espoletatecnologias.api.modules.warehouse.products.infra.controllers.ProductController
-import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.ExposedProductRepository
+import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.repositories.ExposedProductRepository
 import org.koin.core.component.get
 import org.koin.core.module.Module
 import org.koin.dsl.module

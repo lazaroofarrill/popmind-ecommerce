@@ -1,4 +1,4 @@
-package com.espoletatecnologias.api.modules.warehouse.products.infra.dal
+package com.espoletatecnologias.api.modules.warehouse.products.infra.dal.repositories
 
 import com.espoletatecnologias.api.clean.crud.FindManyOptions
 import com.espoletatecnologias.api.clean.crud.FindManyResponse

@@ -1,12 +1,8 @@
 package com.espoletatecnologias.api.modules.details.database.crud
 
-import com.espoletatecnologias.api.clean.crud.CrudRepository
-import com.espoletatecnologias.api.clean.crud.FindManyOptions
-import com.espoletatecnologias.api.clean.crud.FindManyResponse
-import com.espoletatecnologias.api.clean.crud.FindOptions
+import com.espoletatecnologias.api.clean.crud.*
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
-import com.espoletatecnologias.api.clean.crud.BaseEntity
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*
@@ -20,7 +16,7 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
-open class CommonTable : Table() {
+open class CommonTable(name: String = "") : Table(name) {
     val id = uuid("id").autoGenerate()
     override val primaryKey = PrimaryKey(id)
 }
@@ -170,7 +166,7 @@ open class ExposedCrudRepository<T : BaseEntity>(
         where.forEach { filter ->
             if (filter.key is String) {
                 val column: Column<*> =
-                    table::class.declaredMemberProperties.find {
+                    table::class.memberProperties.find {
                         it.name == filter.key
                     }?.let {
                         it.isAccessible = true
@@ -180,7 +176,8 @@ open class ExposedCrudRepository<T : BaseEntity>(
                         } else {
                             throw Error("Property is not of type column")
                         }
-                    } ?: throw Error("Column for filtering not found")
+                    }
+                        ?: throw Error("Column for filtering ${filter.key} not found")
 
                 query.andWhere {
                     column as Column<String> eq filter.value as String

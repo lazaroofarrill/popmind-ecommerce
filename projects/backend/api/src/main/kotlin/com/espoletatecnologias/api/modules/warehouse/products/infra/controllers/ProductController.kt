@@ -18,8 +18,7 @@ import io.ktor.server.routing.*
 
 class ProductController(
     private val productService: ProductService,
-) :
-    Controller {
+) : Controller {
     override val router: Router = {
         route("warehouse/products") {
             get {
@@ -41,7 +40,8 @@ class ProductController(
             }
 
             get("ui") {
-                val productFindManyResponse = productService.find(extractFindOptions())
+                val productFindManyResponse =
+                    productService.find(extractFindOptions())
                 setFindMeta(productFindManyResponse)
                 call.respond(
                     FreeMarkerContent(
