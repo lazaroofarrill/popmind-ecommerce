@@ -6,3 +6,23 @@ Content-Type: application/json
   "name": "Shoe",
   "description": "Shoes have a description"
 }
+
+### List categories
+GET {{host}}/warehouse/categories
+
+
+### Get single category
+GET {{host}}/warehouse/categories/f403ef3a-58b1-47aa-8ec5-1f4065bea7f8
+
+### Update category
+PATCH {{host}}/warehouse/categories
+Content-Type: application/json
+
+{
+  "id": "f403ef3a-58b1-47aa-8ec5-1f4065bea7f8",
+  "name": "Flan"
+}
+
+
+### Delete category
+DELETE {{host}}/warehouse/categories/f403ef3a-58b1-47aa-8ec5-1f4065bea7f8
