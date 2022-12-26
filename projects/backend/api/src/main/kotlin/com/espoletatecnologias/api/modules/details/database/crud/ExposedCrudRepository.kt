@@ -6,7 +6,7 @@ import com.espoletatecnologias.api.clean.crud.FindManyResponse
 import com.espoletatecnologias.api.clean.crud.FindOptions
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
-import com.espoletatecnologias.api.modules.warehouse.products.domain.models.BaseEntity
+import com.espoletatecnologias.api.clean.crud.BaseEntity
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*

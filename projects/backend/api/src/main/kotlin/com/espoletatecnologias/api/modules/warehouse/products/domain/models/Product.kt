@@ -1,42 +1,26 @@
 package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
+import com.espoletatecnologias.api.clean.crud.BaseEntity
 import java.util.*
 
-interface BaseEntity {
-    val id: UUID
-}
-
-interface IProduct : BaseEntity {
-    val name: String
-    val description: String
-    val pictures: List<String>
-    val categories: List<Category>
-}
-
-interface IProductVariant : BaseEntity {
-    val parentId: UUID
-    val properties: Map<VariantProperty, String>
-    val pictures: List<String>
-}
 
 data class Product(
     override val id: UUID,
-    override val name: String,
-    override val description: String,
-    override val pictures: List<String>,
-    override val categories: List<Category>
-) : IProduct
+    val name: String,
+    val description: String,
+    val pictures: List<String>,
+    val categories: List<Category>
+) : BaseEntity
 
 data class ProductVariant(
     override val id: UUID,
-    override val parentId: UUID,
-    override val properties: Map<VariantProperty, String>,
-    override val pictures: List<String>
-) : IProductVariant {
-}
+    val parentId: UUID,
+    val properties: Map<VariantProperty, String>,
+    val pictures: List<String>
+) : BaseEntity
 
 data class VariantProperty(
-    val id: UUID,
+    override val id: UUID,
     val name: String,
     val allowedValues: List<String>
-)
+) : BaseEntity

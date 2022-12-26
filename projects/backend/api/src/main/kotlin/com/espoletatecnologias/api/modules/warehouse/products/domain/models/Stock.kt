@@ -7,7 +7,6 @@ import java.util.*
 
 data class Stock(
     val id: UUID, val product: Product, val quantity: Int,
-    val warehouse: Warehouse
 )
 
 

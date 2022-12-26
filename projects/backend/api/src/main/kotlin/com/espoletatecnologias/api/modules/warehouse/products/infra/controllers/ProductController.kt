@@ -28,7 +28,6 @@ class ProductController(
 
                 setFindMeta(products)
 
-
                 call.respond(products.items.map {
                     ReadProductDto.fromEntity(it)
                 })

@@ -2,12 +2,13 @@ package com.espoletatecnologias.api.clean.crud
 
 import java.util.*
 
-abstract class CrudService<T : Any, TCreateDto : InputDto<T>,
+abstract class CrudService<
+        T : Any,
+        TCreateDto : InputDto<T>,
         TUpdateDto : InputDto<T>>(
     private val repo: CrudRepository<T>,
     private val uwo: UnitOfWorkService
 ) {
-
 
     suspend fun find(options: FindManyOptions): FindManyResponse<T> {
         return uwo.exec { repo.find(options) }
