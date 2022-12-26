@@ -5,7 +5,7 @@ import com.espoletatecnologias.api.clean.crud.FindManyResponse
 import com.espoletatecnologias.api.clean.crud.FindOptions
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
-import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
+import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import java.util.*
 

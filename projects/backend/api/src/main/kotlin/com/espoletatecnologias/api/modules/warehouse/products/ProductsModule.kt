@@ -2,8 +2,8 @@ package com.espoletatecnologias.api.modules.warehouse.products
 
 import com.espoletatecnologias.api.framework.arch.ApplicationModule
 import com.espoletatecnologias.api.framework.arch.Controller
-import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.CategoryRepository
-import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
+import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.CategoryRepository
+import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.CategoryService
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import com.espoletatecnologias.api.modules.warehouse.products.infra.controllers.CategoryController

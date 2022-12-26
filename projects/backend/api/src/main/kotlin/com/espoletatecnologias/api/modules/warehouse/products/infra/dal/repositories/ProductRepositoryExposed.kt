@@ -3,7 +3,7 @@ package com.espoletatecnologias.api.modules.warehouse.products.infra.dal.reposit
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
 import com.espoletatecnologias.api.modules.details.database.crud.ExposedCrudRepository
-import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
+import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.ProductTypeDiscriminator
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Products
