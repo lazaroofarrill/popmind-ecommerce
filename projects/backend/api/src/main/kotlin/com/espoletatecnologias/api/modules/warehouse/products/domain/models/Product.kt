@@ -16,7 +16,7 @@ data class Product(
     override val description: String,
     override val pictures: List<String>,
     override val categories: List<Category>
-): IProduct
+) : IProduct
 
 data class ProductVariant(
     val id: UUID,

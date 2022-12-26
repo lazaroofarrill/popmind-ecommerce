@@ -4,9 +4,13 @@ Content-Type: application/json
 
 {
   "name": "Other name",
-  "description": "sexy muffin"
+  "description": "sexy muffin",
+  "pictures": ["lol@lol.com"]
 }
 
+
+### List Products Default
+GET {{host}}/warehouse/products
 
 ### List Products
 GET {{host}}/warehouse/products?limit=5&offset=0&w_name=Other name

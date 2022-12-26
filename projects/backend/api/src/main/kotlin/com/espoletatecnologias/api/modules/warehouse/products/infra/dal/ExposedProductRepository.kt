@@ -9,6 +9,9 @@ import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
@@ -33,13 +36,20 @@ private object Products : Table() {
 }
 
 fun ResultRow.toProduct(): Product {
+
     return Product(
         id = this[Products.id],
         name = this[Products.name] ?: throw DalWrongColumnContent(),
         description = this[Products.description]
             ?: throw DalWrongColumnContent(),
         categories = emptyList(),
-        pictures = emptyList(),
+        pictures = try {
+            println("${this[Products.id]} --- ${this[Products.pictures]}")
+            Json.decodeFromString(this[Products.pictures])
+        } catch (e: Exception) {
+            println("${this[Products.id]} --- ${this[Products.pictures]}")
+            emptyList()
+        },
     )
 }
 
@@ -128,6 +138,7 @@ class ExposedProductRepository : ProductRepository {
             it[name] = newProduct.name
             it[description] = newProduct.description
             it[productTypeDiscriminator] = ProductTypeDiscriminator.PRODUCT
+            it[pictures] = Json.encodeToString(newProduct.pictures)
         }
 
         return insertStatement.resultedValues?.singleOrNull()

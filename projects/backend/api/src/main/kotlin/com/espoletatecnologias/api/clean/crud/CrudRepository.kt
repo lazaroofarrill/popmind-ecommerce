@@ -1,7 +1,6 @@
 package com.espoletatecnologias.api.clean.crud
 
 import java.util.*
-import kotlin.reflect.KProperty
 
 interface CrudRepository<T : Any> {
     suspend fun find(options: FindManyOptions = FindManyOptions()): FindManyResponse<T>

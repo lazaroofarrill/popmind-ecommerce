@@ -14,15 +14,24 @@ import java.util.*
 
 @Serializable()
 data class CreateProductDto(
-    val name: String,
-    val description: String
-) : InputDto<Product> {
+    override val name: String,
+
+    override val description: String,
+
+    @Transient
+    override val id: UUID = UUID.randomUUID(),
+
+    override val pictures: List<String>,
+
+    @Transient
+    override val categories: List<Category> = emptyList()
+) : IProduct, InputDto<Product> {
     override fun toEntity(): Product {
         return Product(
             id = UUID.randomUUID(),
             name = name,
             description = description,
-            pictures = emptyList(),
+            pictures = pictures,
             categories = emptyList()
         )
     }
@@ -37,8 +46,7 @@ data class ReadProductDto(
 
     override val description: String,
 
-    @Transient
-    override val pictures: List<String> = emptyList(),
+    override val pictures: List<String>,
 
     @Transient
     override val categories: List<@Contextual Category> = emptyList()

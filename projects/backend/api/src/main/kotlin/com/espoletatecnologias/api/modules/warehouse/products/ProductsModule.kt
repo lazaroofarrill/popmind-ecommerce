@@ -13,11 +13,11 @@ import org.koin.dsl.module
 @Suppress("USELESS_CAST")
 class ProductsModule : ApplicationModule() {
     override val module: Module = module {
-        single { ProductService(productRepo = get()) }
+        single { ProductService(productRepo = get(), uwo = get()) }
         single { ExposedProductRepository() as ProductRepository }
     }
 
     override fun controllers(): List<Controller> = listOf(
-        ProductController(productService = get(), unitOfWork = get())
+        ProductController(productService = get())
     )
 }

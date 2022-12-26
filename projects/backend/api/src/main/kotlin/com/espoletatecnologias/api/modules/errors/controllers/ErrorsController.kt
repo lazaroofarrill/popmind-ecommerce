@@ -13,7 +13,12 @@ import kotlinx.serialization.Serializable
 class ErrorsController : Controller {
     override val router: Router = {
         get<Routes> {
-            call.respond(FreeMarkerContent("error.ftl", mapOf("errorId" to it.id)))
+            call.respond(
+                FreeMarkerContent(
+                    "error.ftl",
+                    mapOf("errorId" to it.id)
+                )
+            )
         }
     }
 
