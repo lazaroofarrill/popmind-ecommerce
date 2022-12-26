@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ### List Products Default
-GET {{host}}/warehouse/products
+GET {{host}}/warehouse/products?w_id=c5c7dea9-9c9b-4c7e-99a4-a2f65210e293
 
 ### List Products
 GET {{host}}/warehouse/products?limit=5&offset=0&w_name=Other name

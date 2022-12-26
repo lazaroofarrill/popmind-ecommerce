@@ -4,7 +4,6 @@ import com.espoletatecnologias.api.clean.crud.FindManyOptions
 import com.espoletatecnologias.api.clean.crud.FindManyResponse
 import com.espoletatecnologias.api.clean.crud.FindOptions
 import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
-import com.espoletatecnologias.api.framework.common.exceptions.DalReadError
 import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
 import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
 import com.espoletatecnologias.api.modules.warehouse.products.domain.interfaces.ProductRepository
@@ -16,6 +15,8 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
 import java.util.*
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.jvm.isAccessible
 
 enum class ProductTypeDiscriminator {
     PRODUCT,
@@ -64,23 +65,20 @@ class ExposedProductRepository : ProductRepository {
     ): Query {
         where.forEach { filter ->
             if (filter.key is String) {
-
-                when (filter.key) {
-                    Products::name.name -> {
-                        query.andWhere {
-                            Products.name eq filter.value as String
+                val column: Column<*> =
+                    Products::class.declaredMemberProperties.find {
+                        it.name == filter.key
+                    }?.let {
+                        it.isAccessible = true
+                        if (it.get(Products) is Column<*>) {
+                            it.get(Products) as Column<*>
+                        } else {
+                            throw Error("Property is not of type column")
                         }
-                    }
+                    } ?: throw Error("Column for filtering not found")
 
-                    Products::description.name -> {
-                        query.andWhere {
-                            Products.description eq filter.value as String
-                        }
-                    }
-
-                    else -> {
-                        throw DalReadError("${filter.key} is not a property available for filtering")
-                    }
+                query.andWhere {
+                    column as Column<String> eq filter.value as String
                 }
             } else {
                 throw Error("This repository only handles string keys")
