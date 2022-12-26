@@ -6,11 +6,17 @@ interface BaseEntity {
     val id: UUID
 }
 
-interface IProduct: BaseEntity {
+interface IProduct : BaseEntity {
     val name: String
     val description: String
     val pictures: List<String>
     val categories: List<Category>
+}
+
+interface IProductVariant : BaseEntity {
+    val parentId: UUID
+    val properties: Map<VariantProperty, String>
+    val pictures: List<String>
 }
 
 data class Product(
@@ -22,11 +28,12 @@ data class Product(
 ) : IProduct
 
 data class ProductVariant(
-    val id: UUID,
-    val parent: Product,
-    val properties: Map<VariantProperty, String>,
-    val pictures: List<String>
-)
+    override val id: UUID,
+    override val parentId: UUID,
+    override val properties: Map<VariantProperty, String>,
+    override val pictures: List<String>
+) : IProductVariant {
+}
 
 data class VariantProperty(
     val id: UUID,
