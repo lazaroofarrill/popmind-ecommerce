@@ -10,6 +10,7 @@ import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.ReadPr
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.modules.warehouse.products.domain.services.ProductService
 import io.ktor.server.application.*
+import io.ktor.server.freemarker.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -38,6 +39,17 @@ class ProductController(
                 val createdProduct = productService.create(createProductDto)
 
                 call.respond(ReadProductDto.fromEntity(createdProduct))
+            }
+
+            get("ui") {
+                val productFindManyResponse = productService.find(extractFindOptions())
+                setFindMeta(productFindManyResponse)
+                call.respond(
+                    FreeMarkerContent(
+                        "warehouse/products/products-list.ftl",
+                        mapOf("products" to productFindManyResponse.items)
+                    )
+                )
             }
         }
 

@@ -2,6 +2,11 @@ package com.espoletatecnologias.api.clean.crud
 
 import java.util.*
 
+enum class FilteringOrder(s: String) {
+    ASC("ASC"),
+    DESC("DESC")
+}
+
 interface CrudRepository<T : Any> {
     suspend fun find(options: FindManyOptions = FindManyOptions()): FindManyResponse<T>
 
@@ -27,5 +32,6 @@ data class FindManyOptions(
     val limit: Int = 100,
     val offset: Long = 0,
     val select: Map<Any, Any> = mapOf(),
-    val where: Map<Any, Any> = mapOf()
+    val where: Map<Any, Any> = mapOf(),
+    val order: Map<Any, FilteringOrder> = mapOf()
 )

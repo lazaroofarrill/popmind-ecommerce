@@ -16,9 +16,9 @@ fun main() {
 
 fun Application.module() {
     val applicationModules = configureKoin(RootModule::class)
-    configureContentNegotiation()
     configureFreeMarker()
     configureResources()
+    configureContentNegotiation()
     configureRouting(applicationModules)
 }
 

@@ -44,10 +44,8 @@ fun ResultRow.toProduct(): Product {
             ?: throw DalWrongColumnContent(),
         categories = emptyList(),
         pictures = try {
-            println("${this[Products.id]} --- ${this[Products.pictures]}")
             Json.decodeFromString(this[Products.pictures])
         } catch (e: Exception) {
-            println("${this[Products.id]} --- ${this[Products.pictures]}")
             emptyList()
         },
     )

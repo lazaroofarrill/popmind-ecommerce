@@ -13,4 +13,7 @@
             Logout of my secret recipes
         </a>
     </div>
+    <div>
+        <a href="/warehouse/products/ui">Products</a>
+    </div>
 </@layout.header>
