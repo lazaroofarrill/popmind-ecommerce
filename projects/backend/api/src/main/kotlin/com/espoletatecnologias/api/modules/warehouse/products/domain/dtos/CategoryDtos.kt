@@ -1,3 +1,5 @@
+@file:UseSerializers(UUIDSerializer::class)
+
 package com.espoletatecnologias.api.modules.warehouse.products.domain.dtos
 
 import com.espoletatecnologias.api.clean.crud.InputDto
@@ -6,18 +8,17 @@ import com.espoletatecnologias.api.clean.crud.UpdateDto
 import com.espoletatecnologias.api.framework.serializers.UUIDSerializer
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Category
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import java.util.*
+
 
 @Serializable
 data class ReadCategoryDto(
-    @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-
     val name: String,
-
     val description: String,
-
-    val parent: ReadCategoryDto?
+    val parent: ReadCategoryDto?,
+    val parentId: UUID?
 ) {
     companion object : OutputDto<ReadCategoryDto, Category> {
         override fun fromEntity(entity: Category): ReadCategoryDto {
@@ -30,7 +31,8 @@ data class ReadCategoryDto(
 
                 parent = if (entity.parent != null) fromEntity(
                     entity.parent
-                ) else null
+                ) else null,
+                parentId = entity.parentId
             )
         }
 
@@ -40,13 +42,15 @@ data class ReadCategoryDto(
 @Serializable
 data class CreateCategoryDto(
     val name: String,
-    val description: String
+    val description: String,
+    val parentId: UUID? = null
 ) : InputDto<Category> {
     override fun toEntity(): Category {
         return Category(
             name = name,
             description = description,
             parent = null,
+            parentId = parentId,
             id = UUID.randomUUID()
         )
     }
@@ -55,16 +59,15 @@ data class CreateCategoryDto(
 @Serializable
 data class UpdateCategoryDto(
     val name: String? = null,
-
     val description: String? = null,
-
-    @Serializable(with = UUIDSerializer::class)
+    val parentId: UUID? = null,
     override val id: UUID
 ) : UpdateDto<Category> {
     override fun toEntity(toUpdate: Category): Category {
         return toUpdate.copy(
             name = name ?: toUpdate.name,
-            description = description ?: toUpdate.description
+            description = description ?: toUpdate.description,
+            parentId = parentId ?: toUpdate.parentId
         )
     }
 }

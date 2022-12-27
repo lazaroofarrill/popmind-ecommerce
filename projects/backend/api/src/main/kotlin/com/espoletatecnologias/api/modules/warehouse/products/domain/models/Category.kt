@@ -8,5 +8,6 @@ data class Category(
     override val id: UUID,
     val name: String,
     val description: String,
-    val parent: Category?
+    val parent: Category?,
+    val parentId: UUID? = null
 ): BaseEntity

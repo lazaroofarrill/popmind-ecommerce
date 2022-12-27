@@ -33,8 +33,9 @@ class ExposedDatabaseModule : ApplicationModule() {
                 Database.connect(driver = driverClassName, url = jdbcUrl)
 
             transaction(database) {
+                SchemaUtils.createMissingTablesAndColumns(*schemas.toTypedArray())
                 schemas.forEach {
-                    SchemaUtils.create(it)
+                    SchemaUtils.createMissingTablesAndColumns(it)
                 }
             }
 

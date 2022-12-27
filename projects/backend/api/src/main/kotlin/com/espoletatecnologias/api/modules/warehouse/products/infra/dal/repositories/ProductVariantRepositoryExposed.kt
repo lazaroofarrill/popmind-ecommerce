@@ -39,7 +39,7 @@ class ProductVariantRepositoryExposed :
     }
 }
 
-private fun ResultRow.toVariant(): ProductVariant {
+fun ResultRow.toVariant(): ProductVariant {
     return ProductVariant(
         id = this[Products.id],
         parentId = this[Products.parentId]

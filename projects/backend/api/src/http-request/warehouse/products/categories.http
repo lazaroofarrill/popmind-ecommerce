@@ -3,8 +3,8 @@ POST {{host}}/warehouse/categories
 Content-Type: application/json
 
 {
-  "name": "Key",
-  "description": "My keys are good"
+  "name": "Clothing",
+  "description": "All clothes belong to this category"
 }
 
 ### List categories
@@ -19,8 +19,9 @@ PATCH {{host}}/warehouse/categories
 Content-Type: application/json
 
 {
-  "id": "f403ef3a-58b1-47aa-8ec5-1f4065bea7f8",
-  "name": "Flan"
+  "id": "7577bbe9-6ea7-4b3f-be73-51dc959449d7",
+  "name": "Footwear",
+  "parentId": "6ca8dd22-ebf9-4b6f-b742-f6aea86adce8"
 }
 
 

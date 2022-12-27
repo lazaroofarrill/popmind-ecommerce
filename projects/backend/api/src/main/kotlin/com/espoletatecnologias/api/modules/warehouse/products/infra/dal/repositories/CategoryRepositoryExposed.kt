@@ -15,6 +15,7 @@ fun ResultRow.toCategory(): Category {
         id = this[Categories.id],
         name = this[Categories.name],
         description = this[Categories.description],
-        parent = null
+        parent = null,
+        parentId = this[Categories.parentId]
     )
 }

@@ -9,6 +9,7 @@ abstract class CategoriesBase :
     CommonTable() {
     val name = varchar("name", 250)
     val description = text("description")
+    val parentId = reference("parent_id", id).nullable()
 }
 
 object Categories : CategoriesBase()
