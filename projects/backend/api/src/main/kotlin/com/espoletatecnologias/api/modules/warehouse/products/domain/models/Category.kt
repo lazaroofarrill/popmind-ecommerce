@@ -1,6 +1,6 @@
 package com.espoletatecnologias.api.modules.warehouse.products.domain.models
 
-import com.espoletatecnologias.api.clean.crud.BaseEntity
+import com.espoletatecnologias.common.clean.crud.BaseEntity
 import java.util.*
 
 

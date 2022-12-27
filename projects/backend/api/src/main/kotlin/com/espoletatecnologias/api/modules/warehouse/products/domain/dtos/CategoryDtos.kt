@@ -2,11 +2,12 @@
 
 package com.espoletatecnologias.api.modules.warehouse.products.domain.dtos
 
-import com.espoletatecnologias.api.clean.crud.InputDto
-import com.espoletatecnologias.api.clean.crud.OutputDto
-import com.espoletatecnologias.api.clean.crud.UpdateDto
-import com.espoletatecnologias.api.framework.serializers.UUIDSerializer
+
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Category
+import com.espoletatecnologias.common.clean.crud.InputDto
+import com.espoletatecnologias.common.clean.crud.OutputDto
+import com.espoletatecnologias.common.clean.crud.UpdateDto
+import com.espoletatecnologias.common.framework.serializers.UUIDSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import java.util.*

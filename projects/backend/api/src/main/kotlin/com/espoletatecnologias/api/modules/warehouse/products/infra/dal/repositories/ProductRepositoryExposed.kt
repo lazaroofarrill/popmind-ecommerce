@@ -1,17 +1,17 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal.repositories
 
-import com.espoletatecnologias.api.clean.crud.FindManyOptions
-import com.espoletatecnologias.api.clean.crud.FindManyResponse
-import com.espoletatecnologias.api.clean.crud.FindOptions
-import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
-import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
-import com.espoletatecnologias.api.modules.details.database.crud.ExposedCrudRepository
+import com.espoletatecnologias.common.clean.crud.FindManyOptions
+import com.espoletatecnologias.common.clean.crud.FindManyResponse
+import com.espoletatecnologias.common.clean.crud.FindOptions
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductRepository
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Categories
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.CategoriesProductsJoint
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.ProductTypeDiscriminator
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Products
+import com.espoletatecnologias.common.framework.common.exceptions.DalUpdateError
+import com.espoletatecnologias.common.framework.common.exceptions.DalWrongColumnContent
+import com.espoletatecnologias.common.modules.details.database.crud.ExposedCrudRepository
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*

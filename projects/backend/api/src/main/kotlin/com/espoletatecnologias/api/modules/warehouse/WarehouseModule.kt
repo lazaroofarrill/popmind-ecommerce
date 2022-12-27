@@ -1,6 +1,6 @@
 package com.espoletatecnologias.api.modules.warehouse
 
-import com.espoletatecnologias.api.framework.arch.ApplicationModule
+import com.espoletatecnologias.common.framework.arch.ApplicationModule
 import com.espoletatecnologias.api.modules.warehouse.products.ProductsModule
 import kotlin.reflect.KClass
 

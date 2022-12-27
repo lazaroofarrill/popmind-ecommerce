@@ -1,13 +1,13 @@
 package com.espoletatecnologias.api.modules.warehouse.products.domain.services
 
-import com.espoletatecnologias.api.clean.crud.CrudService
-import com.espoletatecnologias.api.clean.crud.UnitOfWorkService
-import com.espoletatecnologias.api.framework.common.exceptions.DalInsertError
-import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
+import com.espoletatecnologias.common.clean.crud.CrudService
+import com.espoletatecnologias.common.clean.crud.UnitOfWorkService
 import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.CreateProductDto
 import com.espoletatecnologias.api.modules.warehouse.products.domain.dtos.UpdateProductDto
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.Product
 import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductRepository
+import com.espoletatecnologias.common.framework.common.exceptions.DalInsertError
+import com.espoletatecnologias.common.framework.common.exceptions.DalUpdateError
 
 
 class ProductService(

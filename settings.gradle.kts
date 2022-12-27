@@ -17,3 +17,5 @@ pluginManagement {
 rootProject.name = "ecommerce"
 include("projects:backend:api")
 findProject(":projects:backend:api")?.name = "api"
+include("projects:backend:common")
+findProject(":projects:backend:common")?.name = "common"

@@ -1,7 +1,7 @@
 package com.espoletatecnologias.api
 
-import com.espoletatecnologias.api.framework.plugins.*
 import com.espoletatecnologias.api.modules.RootModule
+import com.espoletatecnologias.common.framework.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 

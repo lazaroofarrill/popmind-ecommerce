@@ -48,6 +48,7 @@ dependencies {
     implementation("io.ktor:ktor-server-freemarker-jvm:2.2.1")
     implementation("io.ktor:ktor-server-openapi:2.2.1")
     implementation("io.ktor:ktor-client-logging-jvm:2.2.1")
+    implementation(project(mapOf("path" to ":projects:backend:common")))
     testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
     implementation("io.insert-koin:koin-ktor:$koinVersion")

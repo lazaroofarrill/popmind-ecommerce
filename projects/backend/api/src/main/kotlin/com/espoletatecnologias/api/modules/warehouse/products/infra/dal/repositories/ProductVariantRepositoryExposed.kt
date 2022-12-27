@@ -1,12 +1,13 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal.repositories
 
-import com.espoletatecnologias.api.framework.common.exceptions.DalUpdateError
-import com.espoletatecnologias.api.framework.common.exceptions.DalWrongColumnContent
-import com.espoletatecnologias.api.modules.details.database.crud.ExposedCrudRepository
+
 import com.espoletatecnologias.api.modules.warehouse.products.domain.ports.ProductVariantRepository
 import com.espoletatecnologias.api.modules.warehouse.products.domain.models.ProductVariant
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.ProductTypeDiscriminator
 import com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas.Products
+import com.espoletatecnologias.common.framework.common.exceptions.DalUpdateError
+import com.espoletatecnologias.common.framework.common.exceptions.DalWrongColumnContent
+import com.espoletatecnologias.common.modules.details.database.crud.ExposedCrudRepository
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*

@@ -1,8 +1,9 @@
 package com.espoletatecnologias.api.modules.warehouse.products.infra.dal.schemas
 
-import com.espoletatecnologias.api.modules.details.database.crud.CommonTable
-import com.espoletatecnologias.api.modules.i18n.infra.schemas.TranslationTable
-import com.espoletatecnologias.api.modules.i18n.infra.schemas.TranslationTableImpl
+import com.espoletatecnologias.common.modules.details.database.crud.CommonTable
+import com.espoletatecnologias.common.modules.i18n.infra.schemas.TranslationTable
+import com.espoletatecnologias.common.modules.i18n.infra.schemas.TranslationTableImpl
+
 
 abstract class ProductsBase : CommonTable() {
     val name = varchar("name", 250).nullable()
