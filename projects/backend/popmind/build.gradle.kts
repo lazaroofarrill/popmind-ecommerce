@@ -13,7 +13,8 @@ plugins {
     application
 }
 
-group = "com.espoletatecnologias"
+group = "com.lazaroofarrill.popmind"
+version = "unspecified"
 
 repositories {
     mavenCentral()
@@ -65,7 +66,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("com.h2database:h2:$h2_version")
-
 }
 
 tasks.getByName<Test>("test") {
@@ -73,7 +73,7 @@ tasks.getByName<Test>("test") {
 }
 
 application {
-    mainClass.set("com.espoletatecnologias.api.MainKt")
+    mainClass.set("com.popmind.MainKt")
     val developmentMode by properties
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$developmentMode")
 }

@@ -16,6 +16,8 @@ interface CrudRepository<T : Any> {
 
     suspend fun create(newRecord: T): T
 
+    suspend fun create(newRecords: List<T>): T
+
     suspend fun update(updatedRecord: T): T
 
     suspend fun delete(id: UUID): Boolean

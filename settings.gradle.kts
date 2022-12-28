@@ -19,3 +19,5 @@ include("projects:backend:api")
 findProject(":projects:backend:api")?.name = "api"
 include("projects:backend:common")
 findProject(":projects:backend:common")?.name = "common"
+include("projects:backend:popmind")
+findProject(":projects:backend:popmind")?.name = "popmind"
